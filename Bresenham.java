@@ -103,7 +103,7 @@ public class Bresenham extends JPanel {
 
     // get dataline from an input file
     public int inputLines() {
-        int x1,y1,x2,y2;
+        int x1,y1,z1,x2,y2,z2;
         DataLine line;
         String input;
         Scanner scan = new Scanner(System.in);
@@ -120,9 +120,12 @@ public class Bresenham extends JPanel {
                     st = new StringTokenizer(text);
                     x1 = Integer.parseInt(st.nextToken());
                     y1 = Integer.parseInt(st.nextToken());
+                    z1 = Integer.parseInt(st.nextToken());
                     x2 = Integer.parseInt(st.nextToken());
                     y2 = Integer.parseInt(st.nextToken());
-                    line = new DataLine(x1,y1,x2,y2);
+                    z2 = Integer.parseInt(st.nextToken());
+                    GraphicLine gline = new GraphicLine(x1,y1,z1,x2,y2,z2);
+                    line = convert3DLine(gline);
                     drawLine(line);
                 }
             } catch (IOException ex) {
@@ -132,6 +135,20 @@ public class Bresenham extends JPanel {
             System.out.println("File not found. Error.");
         }
         return count;
+    }
+
+    public DataLine convert3DLine (GraphicLine line) {
+        double D = 2.5;
+        double S = 50;
+        double V = 100;
+
+        int x1 = (int)((((D * line.getx1())/(S * line.getz1()))*V) + V);
+        int y1 = (int)((((D * line.gety1())/(S * line.getz1()))*V) + V);
+        int x2 = (int)((((D * line.getx2())/(S * line.getz2()))*V) + V);
+        int y2 = (int)((((D * line.gety2())/(S * line.getz2()))*V) + V);
+
+        DataLine gline = new DataLine(x1,y1,x2,y2);
+        return gline;
     }
 
     // put all lines in an output file
@@ -320,7 +337,7 @@ public class Bresenham extends JPanel {
         int numerator = longest >> 1;
 
         for (int i = 0; i <= longest;i ++) {
-            if(x >= 0 && y >=0 && x <= 639 && y <= 479) {
+            if(x >= 0 && y >=0 && x <= 1000 && y <= 1000) {
                 canvas.setRGB((int)x, (int)y, rgb);
                 numerator += shortest;
                 if (!(numerator < longest)) {

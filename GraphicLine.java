@@ -1,10 +1,11 @@
-public class 3DDataLine {
 
-    private int x, y, z;
+public class GraphicLine {
+
+    private int x1, y1, z1, x2, y2, z2;
     private double[][] concatenateMatrix;
 
     // constructor
-    public 3DDataLine(int x1, int y1, int z1, int x2, int y2, int z2) {
+    public GraphicLine (int x1, int y1, int z1, int x2, int y2, int z2) {
         this.x1 = x1;
         this.y1 = y1;
         this.z1 = z1;
