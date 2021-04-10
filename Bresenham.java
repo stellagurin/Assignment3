@@ -15,6 +15,7 @@ public class Bresenham extends JPanel {
     private ArrayList<DataLine> datalines = new ArrayList<DataLine>();
     private int numOfLines;
     private double[][] concatMatrix;
+    private String file = "";
 
     public Bresenham(int width, int height) {
         int x1,x2,y1,y2;
@@ -25,33 +26,168 @@ public class Bresenham extends JPanel {
         numOfLines = 0;
     }
 
-    // translate the dataline by Tx for the x axis and Ty for y
-    public DataLine basicTranslate(int Tx, int Ty, DataLine dataline) {
-        int x1 = dataline.getx1() + Tx;
-        int y1 = dataline.gety1() + Ty;
-        int x2 = dataline.getx2() + Tx;
-        int y2 = dataline.gety2() + Ty;
-        DataLine line = new DataLine(x1,y1,x2,y2);
-        drawLine(line);
-        return line;
+    // get dataline from an input file
+    public int inputLines() {
+        int x1,y1,z1,x2,y2,z2;
+        DataLine line;
+        String input;
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter name of the input file (e.g. input.txt):");
+        input = scan.nextLine();
+        file = input;
+        int count = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(input));
+            StringTokenizer st;
+            String text;
+            try {
+                while((text = br.readLine()) != null) {
+                    count++;
+                    st = new StringTokenizer(text);
+                    x1 = Integer.parseInt(st.nextToken());
+                    y1 = Integer.parseInt(st.nextToken());
+                    z1 = Integer.parseInt(st.nextToken());
+                    x2 = Integer.parseInt(st.nextToken());
+                    y2 = Integer.parseInt(st.nextToken());
+                    z2 = Integer.parseInt(st.nextToken());
+                    GraphicLine gline = new GraphicLine(x1,y1,z1,x2,y2,z2);
+                    line = convert3DLine(gline);
+                    drawLine(line);
+                }
+            } catch (IOException ex) {
+                System.out.println("Problem with file. Error.");
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found. Error.");
+        }
+        return count;
     }
 
-    // scale the dataline by Sx for the x axis and Sy for y
-    public DataLine basicScale(double Sx, double Sy, DataLine line) {
-        double x1 = Math.round(line.getx1() * Sx);
-        double y1 = Math.round(line.gety1() * Sy);
-        double x2 = Math.round(line.getx2() * Sx);
-        double y2 = Math.round(line.gety2() * Sy);
-        DataLine result = new DataLine((int)x1,(int)y1,(int)x2,(int)y2);
-        drawLine(result);
-        return result;
+    // translate the dataline by Tx for the x axis, Ty for y, and Tz for z
+    public void basicTranslate(int Tx, int Ty, int Tz) {
+        int x1,y1,z1,x2,y2,z2;
+        DataLine line;
+        String input = file;
+        if (input == "") {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter name of the input file (e.g. input.txt):");
+            input = scan.nextLine();
+        }
+        int count = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(input));
+            StringTokenizer st;
+            String text;
+            try {
+                while((text = br.readLine()) != null) {
+                    count++;
+                    st = new StringTokenizer(text);
+                    x1 = Integer.parseInt(st.nextToken()) + Tx;
+                    y1 = Integer.parseInt(st.nextToken()) + Ty;
+                    z1 = Integer.parseInt(st.nextToken()) + Tz;
+                    x2 = Integer.parseInt(st.nextToken()) + Tx;
+                    y2 = Integer.parseInt(st.nextToken()) + Ty;
+                    z2 = Integer.parseInt(st.nextToken()) + Tz;
+                    GraphicLine gline = new GraphicLine(x1,y1,z1,x2,y2,z2);
+                    line = convert3DLine(gline);
+                    drawLine(line);
+                }
+            } catch (IOException ex) {
+                System.out.println("Problem with file. Error.");
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found. Error.");
+        }
+
+    }
+
+    // scale the dataline by Sx for the x axis, Sy for y, and Sz for z
+    public void basicScale(double Sx, double Sy, double Sz) {
+        int x1,y1,z1,x2,y2,z2;
+        DataLine line;
+        String input = file;
+        if (input == "") {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter name of the input file (e.g. input.txt):");
+            input = scan.nextLine();
+        }
+        int count = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(input));
+            StringTokenizer st;
+            String text;
+            try {
+                while((text = br.readLine()) != null) {
+                    count++;
+                    st = new StringTokenizer(text);
+                    x1 = Integer.parseInt(st.nextToken()) * Sx;
+                    y1 = Integer.parseInt(st.nextToken()) * Sy;
+                    z1 = Integer.parseInt(st.nextToken()) * Sz;
+                    x2 = Integer.parseInt(st.nextToken()) * Sx;
+                    y2 = Integer.parseInt(st.nextToken()) * Sy;
+                    z2 = Integer.parseInt(st.nextToken()) * Sz;
+                    GraphicLine gline = new GraphicLine((int)x1,(int)y1,(int)z1,(int)x2,(int)y2,
+                    (int)z2);
+                    line = convert3DLine(gline);
+                    drawLine(line);
+                }
+            } catch (IOException ex) {
+                System.out.println("Problem with file. Error.");
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found. Error.");
+        }
+
     }
 
     // rotate the dataline by the angle given in the parameters
-    public DataLine basicRotate(double angle, DataLine dataline) {
+    public DataLine basicRotate(char side, double angle) {
         angle = Math.toRadians(angle);
         double cosAngle = Math.cos(angle);
         double sinAngle = Math.sin(angle);
+
+        int x1,y1,z1,x2,y2,z2;
+        DataLine line;
+        String input = file;
+        if (input == "") {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter name of the input file (e.g. input.txt):");
+            input = scan.nextLine();
+        }
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(input));
+            StringTokenizer st;
+            String text;
+            try {
+                while((text = br.readLine()) != null) {
+                    if (side == 'x') {
+                        st = new StringTokenizer(text);
+                        x1 = Integer.parseInt(st.nextToken()) * Sx;
+                        y1 = Integer.parseInt(st.nextToken()) * Sy;
+                        z1 = Integer.parseInt(st.nextToken()) * Sz;
+                        x2 = Integer.parseInt(st.nextToken()) * Sx;
+                        y2 = Integer.parseInt(st.nextToken()) * Sy;
+                        z2 = Integer.parseInt(st.nextToken()) * Sz;
+                        GraphicLine gline = new GraphicLine((int)x1,(int)y1,(int)z1,(int)x2,(int)y2,
+                        (int)z2);
+                        line = convert3DLine(gline);
+                        drawLine(line);
+                    } else if (side == 'y') {
+
+                    } else if (side == 'z') {
+                        System.out.println("Incorrect axis specified.");
+                    } else {
+
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println("Problem with file. Error.");
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found. Error.");
+        }
+
 
         double[][] rotate = {{cosAngle,-sinAngle,1.00}, {sinAngle,cosAngle,0.00}, {0.00,0.00,1.00}};
         double[][] point1 = {{(double)dataline.getx1(),(double)dataline.gety1(),1.00}};
@@ -99,42 +235,6 @@ public class Bresenham extends JPanel {
         for(int i = 0; i < num; i++) {
             drawLine(datalines.get(i));
         }
-    }
-
-    // get dataline from an input file
-    public int inputLines() {
-        int x1,y1,z1,x2,y2,z2;
-        DataLine line;
-        String input;
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter name of the input file (e.g. input.txt):");
-        input = scan.nextLine();
-        int count = 0;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(input));
-            StringTokenizer st;
-            String text;
-            try {
-                while((text = br.readLine()) != null) {
-                    count++;
-                    st = new StringTokenizer(text);
-                    x1 = Integer.parseInt(st.nextToken());
-                    y1 = Integer.parseInt(st.nextToken());
-                    z1 = Integer.parseInt(st.nextToken());
-                    x2 = Integer.parseInt(st.nextToken());
-                    y2 = Integer.parseInt(st.nextToken());
-                    z2 = Integer.parseInt(st.nextToken());
-                    GraphicLine gline = new GraphicLine(x1,y1,z1,x2,y2,z2);
-                    line = convert3DLine(gline);
-                    drawLine(line);
-                }
-            } catch (IOException ex) {
-                System.out.println("Problem with file. Error.");
-            }
-        } catch (FileNotFoundException ex) {
-            System.out.println("File not found. Error.");
-        }
-        return count;
     }
 
     public DataLine convert3DLine (GraphicLine line) {
