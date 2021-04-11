@@ -270,9 +270,9 @@ public class Bresenham extends JPanel {
     }
 
     public DataLine convert3DLine (GraphicLine line) {
-        double D = 1;
-        double S = 1;
-        double V = 1;
+        double D = 2.5;
+        double S = 50;
+        double V = 500;
 
         int x1 = (int)((((D * line.getx1())/(S * line.getz1()))*V) + V);
         int y1 = (int)((((D * line.gety1())/(S * line.getz1()))*V) + V);
