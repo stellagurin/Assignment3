@@ -15,8 +15,8 @@ public class Driver {
         int height = 1000;
         int input;
         int counter = 0;
-        int x1,y1,x2,y2, Tx, Ty, angle, Vx0, Vy0, Vx1, Vy1,Cx,Cy;
-        double matrixInput, Sx, Sy;
+        int x1,y1,x2,y2, Tx, Ty,Tz, angle, Vx0, Vy0, Vx1, Vy1,Cx,Cy;
+        double matrixInput, Sx, Sy, Sz;
         double[][] matrix1,matrix2;
         JFrame frame = new JFrame("Assignment 2");
         Scanner scan = new Scanner(System.in);
@@ -36,7 +36,8 @@ public class Driver {
             System.out.println("1: Basic Translation");
             System.out.println("2: Basic Scale");
             System.out.println("3: Basic Rotate");
-            System.out.println("4: Exit");
+            System.out.println("4: Output Lines");
+            System.out.println("5: Exit");
             input = scan.nextInt();
 
             switch (input) {
@@ -48,66 +49,46 @@ public class Driver {
 
             case 1:
 
-                System.out.println("Enter the x1 for the line");
-                x1 = scan.nextInt();
-                System.out.println("Enter the y1 for the line");
-                y1 = scan.nextInt();
-                System.out.println("Enter the x2 for the line");
-                x2 = scan.nextInt();
-                System.out.println("Enter the y2 for the line");
-                y2 = scan.nextInt();
-
-                line = new DataLine(x1,y1,x2,y2);
-
                 System.out.println("Enter the value for Tx.");
                 Tx = scan.nextInt();
                 System.out.println("Enter the value for Ty.");
                 Ty = scan.nextInt();
+                System.out.println("Enter the value for Tz.");
+                Tz = scan.nextInt();
 
-                panel.basicTranslate(Tx,Ty,line);
+                panel.basicTranslate(Tx,Ty,Tz);
                 break;
 
             case 2:
-
-                System.out.println("Enter the x1 for the line");
-                x1 = scan.nextInt();
-                System.out.println("Enter the y1 for the line");
-                y1 = scan.nextInt();
-                System.out.println("Enter the x2 for the line");
-                x2 = scan.nextInt();
-                System.out.println("Enter the y2 for the line");
-                y2 = scan.nextInt();
-
-                line = new DataLine(x1,y1,x2,y2);
 
                 System.out.println("Enter the value for Sx.");
                 Sx = scan.nextDouble();
                 System.out.println("Enter the value for Sy.");
                 Sy = scan.nextDouble();
+                System.out.println("Enter the value for Sz.");
+                Sz = scan.nextDouble();
 
-                panel.basicScale(Sx,Sy,line);
+                panel.basicScale(Sx,Sy,Sz);
                 break;
 
             case 3:
 
-                System.out.println("Enter the x1 for the line");
-                x1 = scan.nextInt();
-                System.out.println("Enter the y1 for the line");
-                y1 = scan.nextInt();
-                System.out.println("Enter the x2 for the line");
-                x2 = scan.nextInt();
-                System.out.println("Enter the y2 for the line");
-                y2 = scan.nextInt();
-
-                line = new DataLine(x1,y1,x2,y2);
+                System.out.println("Enter the axis to apply angle to (x, y, or z)");
+                char letter = scan.next().charAt(0);
 
                 System.out.println("Enter the value for angle.");
                 angle = scan.nextInt();
 
-                panel.basicRotate(angle,line);
+                panel.basicRotate(letter, angle);
                 break;
 
             case 4:
+
+                panel.outputLines(panel.getDatalines(),
+                panel.getNumOfLines());
+                break;
+
+            case 5:
 
                 isRunning = false;
                 break;

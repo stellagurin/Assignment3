@@ -120,12 +120,12 @@ public class Bresenham extends JPanel {
                 while((text = br.readLine()) != null) {
                     count++;
                     st = new StringTokenizer(text);
-                    x1 = Integer.parseInt(st.nextToken()) * Sx;
-                    y1 = Integer.parseInt(st.nextToken()) * Sy;
-                    z1 = Integer.parseInt(st.nextToken()) * Sz;
-                    x2 = Integer.parseInt(st.nextToken()) * Sx;
-                    y2 = Integer.parseInt(st.nextToken()) * Sy;
-                    z2 = Integer.parseInt(st.nextToken()) * Sz;
+                    x1 = (int)(Integer.parseInt(st.nextToken()) * Sx);
+                    y1 = (int)(Integer.parseInt(st.nextToken()) * Sy);
+                    z1 = (int)(Integer.parseInt(st.nextToken()) * Sz);
+                    x2 = (int)(Integer.parseInt(st.nextToken()) * Sx);
+                    y2 = (int)(Integer.parseInt(st.nextToken()) * Sy);
+                    z2 = (int)(Integer.parseInt(st.nextToken()) * Sz);
                     GraphicLine gline = new GraphicLine((int)x1,(int)y1,(int)z1,(int)x2,(int)y2,
                     (int)z2);
                     line = convert3DLine(gline);
@@ -141,7 +141,7 @@ public class Bresenham extends JPanel {
     }
 
     // rotate the dataline by the angle given in the parameters
-    public DataLine basicRotate(char side, double angle) {
+    public void basicRotate(char side, double angle) {
         angle = Math.toRadians(angle);
         double cosAngle = Math.cos(angle);
         double sinAngle = Math.sin(angle);
@@ -162,23 +162,96 @@ public class Bresenham extends JPanel {
             try {
                 while((text = br.readLine()) != null) {
                     if (side == 'x') {
+
                         st = new StringTokenizer(text);
-                        x1 = Integer.parseInt(st.nextToken()) * Sx;
-                        y1 = Integer.parseInt(st.nextToken()) * Sy;
-                        z1 = Integer.parseInt(st.nextToken()) * Sz;
-                        x2 = Integer.parseInt(st.nextToken()) * Sx;
-                        y2 = Integer.parseInt(st.nextToken()) * Sy;
-                        z2 = Integer.parseInt(st.nextToken()) * Sz;
-                        GraphicLine gline = new GraphicLine((int)x1,(int)y1,(int)z1,(int)x2,(int)y2,
-                        (int)z2);
+                        x1 = Integer.parseInt(st.nextToken());
+                        y1 = Integer.parseInt(st.nextToken());
+                        z1 = Integer.parseInt(st.nextToken());
+                        x2 = Integer.parseInt(st.nextToken());
+                        y2 = Integer.parseInt(st.nextToken());
+                        z2 = Integer.parseInt(st.nextToken());
+
+                        double[][] rotate = {{1.00, 0.00, 0.00, 0.00},
+                                             {0.00, cosAngle, sinAngle, 0.00},
+                                             {0.00, -sinAngle, cosAngle, 0.00},
+                                             {0.00, 0.00, 0.00, 1.00}};
+
+                        double[][] point1 = {{(double)x1,
+                                              (double)y1, (double) z1, 1.00}};
+                        double[][] point2 = {{(double)x2,
+                                              (double)y2, (double) z2, 1.00}};
+
+                        double[][] result1 = Matrix.multiplicate(point1,rotate);
+                        double[][] result2 = Matrix.multiplicate(point2,rotate);
+
+                        GraphicLine gline = new GraphicLine((int)result1[0][0],
+                        (int)result1[0][1],(int)result1[0][2],
+                        (int)result2[0][0],(int)result2[0][1],
+                        (int)result2[0][2]);
                         line = convert3DLine(gline);
                         drawLine(line);
+
                     } else if (side == 'y') {
 
-                    } else if (side == 'z') {
-                        System.out.println("Incorrect axis specified.");
-                    } else {
+                        st = new StringTokenizer(text);
+                        x1 = Integer.parseInt(st.nextToken());
+                        y1 = Integer.parseInt(st.nextToken());
+                        z1 = Integer.parseInt(st.nextToken());
+                        x2 = Integer.parseInt(st.nextToken());
+                        y2 = Integer.parseInt(st.nextToken());
+                        z2 = Integer.parseInt(st.nextToken());
 
+                        double[][] rotate = {{cosAngle, 0.00, -sinAngle, 0.00},
+                                             {0.00, 1.00, 0.00, 0.00},
+                                             {sinAngle, 0.00, cosAngle, 0.00},
+                                             {0.00, 0.00, 0.00, 1.00}};
+
+                        double[][] point1 = {{(double)x1,
+                                              (double)y1, (double) z1, 1.00}};
+                        double[][] point2 = {{(double)x2,
+                                              (double)y2, (double) z2, 1.00}};
+
+                        double[][] result1 = Matrix.multiplicate(point1,rotate);
+                        double[][] result2 = Matrix.multiplicate(point2,rotate);
+
+                        GraphicLine gline = new GraphicLine((int)result1[0][0],
+                        (int)result1[0][1],(int)result1[0][2],
+                        (int)result2[0][0],(int)result2[0][1],
+                        (int)result2[0][2]);
+                        line = convert3DLine(gline);
+                        drawLine(line);
+
+                    } else if (side == 'z') {
+
+                        st = new StringTokenizer(text);
+                        x1 = Integer.parseInt(st.nextToken());
+                        y1 = Integer.parseInt(st.nextToken());
+                        z1 = Integer.parseInt(st.nextToken());
+                        x2 = Integer.parseInt(st.nextToken());
+                        y2 = Integer.parseInt(st.nextToken());
+                        z2 = Integer.parseInt(st.nextToken());
+
+                        double[][] rotate = {{cosAngle, sinAngle, 0.00, 0.00},
+                                             {-sinAngle, cosAngle, 0.00, 0.00},
+                                             {0.00, 0.00, 1.00, 0.00},
+                                             {0.00, 0.00, 0.00, 1.00}};
+
+                        double[][] point1 = {{(double)x1,
+                                              (double)y1, (double) z1, 1.00}};
+                        double[][] point2 = {{(double)x2,
+                                              (double)y2, (double) z2, 1.00}};
+
+                        double[][] result1 = Matrix.multiplicate(point1,rotate);
+                        double[][] result2 = Matrix.multiplicate(point2,rotate);
+
+                        GraphicLine gline = new GraphicLine((int)result1[0][0],
+                        (int)result1[0][1],(int)result1[0][2],
+                        (int)result2[0][0],(int)result2[0][1],
+                        (int)result2[0][2]);
+                        line = convert3DLine(gline);
+                        drawLine(line);
+                    } else {
+                        System.out.println("Incorrect axis specified.");
                     }
                 }
             } catch (IOException ex) {
@@ -188,17 +261,6 @@ public class Bresenham extends JPanel {
             System.out.println("File not found. Error.");
         }
 
-
-        double[][] rotate = {{cosAngle,-sinAngle,1.00}, {sinAngle,cosAngle,0.00}, {0.00,0.00,1.00}};
-        double[][] point1 = {{(double)dataline.getx1(),(double)dataline.gety1(),1.00}};
-        double[][] point2 = {{(double)dataline.getx2(),(double)dataline.gety2(),1.00}};
-
-        double[][] result1 = Matrix.multiplicate(point1,rotate);
-        double[][] result2 = Matrix.multiplicate(point2,rotate);
-        DataLine line = new DataLine((int)result1[0][0], (int)result1[0][1], (int)result2[0][0],
-                        (int)result2[0][1]);
-        drawLine(line);
-        return line;
     }
 
     // concatenate two matrices
