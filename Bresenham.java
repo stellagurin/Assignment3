@@ -415,21 +415,21 @@ public class Bresenham extends JPanel {
         int numerator = longest >> 1;
 
         for (int i = 0; i <= longest;i ++) {
-            if(x >= 0 && y >=0 && x <= 1000 && y <= 1000) {
-                canvas.setRGB((int)x, (int)y, rgb);
-                numerator += shortest;
-                if (!(numerator < longest)) {
-                    numerator -= longest;
-                    x += dx1;
-                    y += dy1;
-                } else {
-                    x += dx2;
-                    y += dy2;
-                }
+            canvas.setRGB((int)x, (int)y, rgb);
+            numerator += shortest;
+            if (!(numerator < longest)) {
+                numerator -= longest;
+                x += dx1;
+                y += dy1;
+            } else {
+                x += dx2;
+                y += dy2;
             }
         }
+
         repaint();
         datalines.add(dataline);
         numOfLines++;
+
     }
 }

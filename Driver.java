@@ -11,8 +11,8 @@ public class Driver {
         Boolean isRunning = true;
         Boolean is3x3 = false;
         DataLine line;
-        int width = 1000;
-        int height = 1000;
+        int width = 900;
+        int height = 900;
         int input;
         int counter = 0;
         int x1,y1,x2,y2, Tx, Ty,Tz, angle, Vx0, Vy0, Vx1, Vy1,Cx,Cy;
