@@ -269,36 +269,6 @@ public class Bresenham extends JPanel {
         concatMatrix = result;
     }
 
-    // applies transformations from dataline
-    public DataLine[] applyTransformation(double[][] matrix,
-    ArrayList<DataLine> datalines, int num) {
-        DataLine[] transformedLines = new DataLine[num];
-
-        for (int i = 0; i < num; i++) {
-            int x1 = datalines.get(i).getx1();
-            int y1 = datalines.get(i).gety1();
-            int x2 = datalines.get(i).getx2();
-            int y2 = datalines.get(i).gety2();
-
-            double[][] point1 = {{(double)x1,(double)y1,1.00}};
-            double[][] point2 = {{(double)x2,(double)y2,1.00}};
-            double[][] result1 = Matrix.multiplicate(point1,matrix);
-            double[][] result2 = Matrix.multiplicate(point2,matrix);
-            DataLine line = new DataLine((int)result1[0][0], (int)result1[0][1],
-                            (int)result2[0][0], (int)result2[0][1]);
-            transformedLines[i] = line;
-            drawLine(line);
-        }
-        return transformedLines;
-    }
-
-    // displays pixels
-    public void displayPixels(ArrayList<DataLine> datalines, int num) {
-        for(int i = 0; i < num; i++) {
-            drawLine(datalines.get(i));
-        }
-    }
-
     public DataLine convert3DLine (GraphicLine line) {
         double D = 2.5;
         double S = 50;
@@ -351,59 +321,6 @@ public class Bresenham extends JPanel {
         return count;
     }
 
-    // general scale around a center
-    public DataLine scale(double Sx, double Sy, int Cx, int Cy, DataLine line) {
-        int x1 = line.getx1() - Cx;
-        int y1 = line.gety1() - Cy;
-        int x2 = line.getx2() - Cx;
-        int y2 = line.gety2() - Cy;
-        DataLine dataline = new DataLine(x1,y1,x2,y2);
-
-        double x12 = Math.round(dataline.getx1() * Sx);
-        double y12 = Math.round(dataline.gety1() * Sy);
-        double x22 = Math.round(dataline.getx2() * Sx);
-        double y22 = Math.round(dataline.gety2() * Sy);
-        DataLine result = new DataLine((int)x12,(int)y12,(int)x22,(int)y22);
-
-        x1 = result.getx1() + Cx;
-        y1 = result.gety1() + Cy;
-        x2 = result.getx2() + Cx;
-        y2 = result.gety2() + Cy;
-        DataLine scaleline = new DataLine(x1,y1,x2,y2);
-        drawLine(scaleline);
-        return scaleline;
-    }
-
-    // general rotate around a center
-    public DataLine rotate(double angle, int Cx, int Cy,  DataLine line) {
-        int x1 = line.getx1() - Cx;
-        int y1 = line.gety1() - Cy;
-        int x2 = line.getx2() - Cx;
-        int y2 = line.gety2() - Cy;
-        DataLine dataline = new DataLine(x1,y1,x2,y2);
-
-        angle = Math.toRadians(angle);
-        double cosAngle = Math.cos(angle);
-        double sinAngle = Math.sin(angle);
-
-        double[][] rotate = {{cosAngle,-sinAngle,1.00}, {sinAngle,cosAngle,0.00}, {0.00,0.00,1.00}};
-        double[][] point1 = {{(double)dataline.getx1(),(double)dataline.gety1(),1.00}};
-        double[][] point2 = {{(double)dataline.getx2(),(double)dataline.gety2(),1.00}};
-
-        double[][] result1 = Matrix.multiplicate(point1,rotate);
-        double[][] result2 = Matrix.multiplicate(point2,rotate);
-        DataLine result = new DataLine((int)result1[0][0], (int)result1[0][1], (int)result2[0][0],
-                        (int)result2[0][1]);
-
-        x1 = result.getx1() + Cx;
-        y1 = result.gety1() + Cy;
-        x2 = result.getx2() + Cx;
-        y2 = result.gety2() + Cy;
-        DataLine rotateline = new DataLine(x1,y1,x2,y2);
-        drawLine(rotateline);
-        return rotateline;
-    }
-
     public static int getScreenWorkingWidth() {
         return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getMaximumWindowBounds().width;
@@ -435,7 +352,6 @@ public class Bresenham extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(canvas, null, null);
     }
-
 
     public void fillCanvas(Color c) {
         int color = c.getRGB();
