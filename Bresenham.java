@@ -104,7 +104,7 @@ public class Bresenham extends JPanel {
     // scale the dataline by Sx for the x axis, Sy for y, and Sz for z
     public void basicScale(double Sx, double Sy, double Sz) {
         int x12,y12,z12,x22,y22,z22;
-        DataLine line;
+        DataLine line2;
         String input = file;
         if (input == "") {
             Scanner scan = new Scanner(System.in);
@@ -128,8 +128,8 @@ public class Bresenham extends JPanel {
                     z22 = (int)(Integer.parseInt(st.nextToken()) * Sz);
                     GraphicLine gline = new GraphicLine((int)x12,(int)y12,(int)z12,(int)x22,
                     (int)y22,(int)z22);
-                    line = convert3DLine(gline);
-                    drawLine(line);
+                    line2 = convert3DLine(gline);
+                    drawLine(line2);
                 }
             } catch (IOException ex) {
                 System.out.println("Problem with file. Error.");
@@ -270,6 +270,7 @@ public class Bresenham extends JPanel {
     }
 
     public DataLine convert3DLine (GraphicLine line) {
+
         double D = 2.3;
         double S = 50;
         double V = 400;
@@ -280,6 +281,8 @@ public class Bresenham extends JPanel {
         int y2 = (int)((((D * line.gety2())/(S * line.getz2()))*V) + V);
 
         DataLine gline = new DataLine(x1,y1,x2,y2);
+
+
         return gline;
     }
 
