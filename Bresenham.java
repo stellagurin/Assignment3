@@ -65,7 +65,7 @@ public class Bresenham extends JPanel {
 
     // translate the dataline by Tx for the x axis, Ty for y, and Tz for z
     public void basicTranslate(int Tx, int Ty, int Tz) {
-        int x1,y1,z1,x2,y2,z2;
+        int x11,y11,z11,x21,y21,z21;
         DataLine line;
         String input = file;
         if (input == "") {
@@ -82,13 +82,13 @@ public class Bresenham extends JPanel {
                 while((text = br.readLine()) != null) {
                     count++;
                     st = new StringTokenizer(text);
-                    x1 = Integer.parseInt(st.nextToken()) + Tx;
-                    y1 = Integer.parseInt(st.nextToken()) + Ty;
-                    z1 = Integer.parseInt(st.nextToken()) + Tz;
-                    x2 = Integer.parseInt(st.nextToken()) + Tx;
-                    y2 = Integer.parseInt(st.nextToken()) + Ty;
-                    z2 = Integer.parseInt(st.nextToken()) + Tz;
-                    GraphicLine gline = new GraphicLine(x1,y1,z1,x2,y2,z2);
+                    x11 = Integer.parseInt(st.nextToken()) + Tx;
+                    y11 = Integer.parseInt(st.nextToken()) + Ty;
+                    z11 = Integer.parseInt(st.nextToken()) + Tz;
+                    x21 = Integer.parseInt(st.nextToken()) + Tx;
+                    y21 = Integer.parseInt(st.nextToken()) + Ty;
+                    z21 = Integer.parseInt(st.nextToken()) + Tz;
+                    GraphicLine gline = new GraphicLine(x11,y11,z11,x21,y21,z21);
                     line = convert3DLine(gline);
                     drawLine(line);
                 }
@@ -103,7 +103,7 @@ public class Bresenham extends JPanel {
 
     // scale the dataline by Sx for the x axis, Sy for y, and Sz for z
     public void basicScale(double Sx, double Sy, double Sz) {
-        int x1,y1,z1,x2,y2,z2;
+        int x12,y12,z12,x22,y22,z22;
         DataLine line;
         String input = file;
         if (input == "") {
@@ -120,14 +120,14 @@ public class Bresenham extends JPanel {
                 while((text = br.readLine()) != null) {
                     count++;
                     st = new StringTokenizer(text);
-                    x1 = (int)(Integer.parseInt(st.nextToken()) * Sx);
-                    y1 = (int)(Integer.parseInt(st.nextToken()) * Sy);
-                    z1 = (int)(Integer.parseInt(st.nextToken()) * Sz);
-                    x2 = (int)(Integer.parseInt(st.nextToken()) * Sx);
-                    y2 = (int)(Integer.parseInt(st.nextToken()) * Sy);
-                    z2 = (int)(Integer.parseInt(st.nextToken()) * Sz);
-                    GraphicLine gline = new GraphicLine((int)x1,(int)y1,(int)z1,(int)x2,(int)y2,
-                    (int)z2);
+                    x12 = (int)(Integer.parseInt(st.nextToken()) * Sx);
+                    y12 = (int)(Integer.parseInt(st.nextToken()) * Sy);
+                    z12 = (int)(Integer.parseInt(st.nextToken()) * Sz);
+                    x22 = (int)(Integer.parseInt(st.nextToken()) * Sx);
+                    y22 = (int)(Integer.parseInt(st.nextToken()) * Sy);
+                    z22 = (int)(Integer.parseInt(st.nextToken()) * Sz);
+                    GraphicLine gline = new GraphicLine((int)x12,(int)y12,(int)z12,(int)x22,
+                    (int)y22,(int)z22);
                     line = convert3DLine(gline);
                     drawLine(line);
                 }
@@ -146,7 +146,7 @@ public class Bresenham extends JPanel {
         double cosAngle = Math.cos(angle);
         double sinAngle = Math.sin(angle);
 
-        int x1,y1,z1,x2,y2,z2;
+        int x13,y13,z13,x23,y23,z23;
         DataLine line;
         String input = file;
         if (input == "") {
@@ -164,22 +164,22 @@ public class Bresenham extends JPanel {
                     if (side == 'x') {
 
                         st = new StringTokenizer(text);
-                        x1 = Integer.parseInt(st.nextToken());
-                        y1 = Integer.parseInt(st.nextToken());
-                        z1 = Integer.parseInt(st.nextToken());
-                        x2 = Integer.parseInt(st.nextToken());
-                        y2 = Integer.parseInt(st.nextToken());
-                        z2 = Integer.parseInt(st.nextToken());
+                        x13 = Integer.parseInt(st.nextToken());
+                        y13 = Integer.parseInt(st.nextToken());
+                        z13 = Integer.parseInt(st.nextToken());
+                        x23 = Integer.parseInt(st.nextToken());
+                        y23 = Integer.parseInt(st.nextToken());
+                        z23 = Integer.parseInt(st.nextToken());
 
                         double[][] rotate = {{1.00, 0.00, 0.00, 0.00},
                                              {0.00, cosAngle, sinAngle, 0.00},
                                              {0.00, -sinAngle, cosAngle, 0.00},
                                              {0.00, 0.00, 0.00, 1.00}};
 
-                        double[][] point1 = {{(double)x1,
-                                              (double)y1, (double) z1, 1.00}};
-                        double[][] point2 = {{(double)x2,
-                                              (double)y2, (double) z2, 1.00}};
+                        double[][] point1 = {{(double)x13,
+                                              (double)y13, (double) z13, 1.00}};
+                        double[][] point2 = {{(double)x23,
+                                              (double)y23, (double) z23, 1.00}};
 
                         double[][] result1 = Matrix.multiplicate(point1,rotate);
                         double[][] result2 = Matrix.multiplicate(point2,rotate);
@@ -194,22 +194,22 @@ public class Bresenham extends JPanel {
                     } else if (side == 'y') {
 
                         st = new StringTokenizer(text);
-                        x1 = Integer.parseInt(st.nextToken());
-                        y1 = Integer.parseInt(st.nextToken());
-                        z1 = Integer.parseInt(st.nextToken());
-                        x2 = Integer.parseInt(st.nextToken());
-                        y2 = Integer.parseInt(st.nextToken());
-                        z2 = Integer.parseInt(st.nextToken());
+                        x13 = Integer.parseInt(st.nextToken());
+                        y13 = Integer.parseInt(st.nextToken());
+                        z13 = Integer.parseInt(st.nextToken());
+                        x23 = Integer.parseInt(st.nextToken());
+                        y23 = Integer.parseInt(st.nextToken());
+                        z23 = Integer.parseInt(st.nextToken());
 
                         double[][] rotate = {{cosAngle, 0.00, -sinAngle, 0.00},
                                              {0.00, 1.00, 0.00, 0.00},
                                              {sinAngle, 0.00, cosAngle, 0.00},
                                              {0.00, 0.00, 0.00, 1.00}};
 
-                        double[][] point1 = {{(double)x1,
-                                              (double)y1, (double) z1, 1.00}};
-                        double[][] point2 = {{(double)x2,
-                                              (double)y2, (double) z2, 1.00}};
+                        double[][] point1 = {{(double)x13,
+                                              (double)y13, (double) z13, 1.00}};
+                        double[][] point2 = {{(double)x23,
+                                              (double)y23, (double) z23, 1.00}};
 
                         double[][] result1 = Matrix.multiplicate(point1,rotate);
                         double[][] result2 = Matrix.multiplicate(point2,rotate);
@@ -224,22 +224,22 @@ public class Bresenham extends JPanel {
                     } else if (side == 'z') {
 
                         st = new StringTokenizer(text);
-                        x1 = Integer.parseInt(st.nextToken());
-                        y1 = Integer.parseInt(st.nextToken());
-                        z1 = Integer.parseInt(st.nextToken());
-                        x2 = Integer.parseInt(st.nextToken());
-                        y2 = Integer.parseInt(st.nextToken());
-                        z2 = Integer.parseInt(st.nextToken());
+                        x13 = Integer.parseInt(st.nextToken());
+                        y13 = Integer.parseInt(st.nextToken());
+                        z13 = Integer.parseInt(st.nextToken());
+                        x23 = Integer.parseInt(st.nextToken());
+                        y23 = Integer.parseInt(st.nextToken());
+                        z23 = Integer.parseInt(st.nextToken());
 
                         double[][] rotate = {{cosAngle, sinAngle, 0.00, 0.00},
                                              {-sinAngle, cosAngle, 0.00, 0.00},
                                              {0.00, 0.00, 1.00, 0.00},
                                              {0.00, 0.00, 0.00, 1.00}};
 
-                        double[][] point1 = {{(double)x1,
-                                              (double)y1, (double) z1, 1.00}};
-                        double[][] point2 = {{(double)x2,
-                                              (double)y2, (double) z2, 1.00}};
+                        double[][] point1 = {{(double)x13,
+                                              (double)y13, (double) z13, 1.00}};
+                        double[][] point2 = {{(double)x23,
+                                              (double)y23, (double) z23, 1.00}};
 
                         double[][] result1 = Matrix.multiplicate(point1,rotate);
                         double[][] result2 = Matrix.multiplicate(point2,rotate);
@@ -270,9 +270,9 @@ public class Bresenham extends JPanel {
     }
 
     public DataLine convert3DLine (GraphicLine line) {
-        double D = 2.5;
+        double D = 2.3;
         double S = 50;
-        double V = 500;
+        double V = 400;
 
         int x1 = (int)((((D * line.getx1())/(S * line.getz1()))*V) + V);
         int y1 = (int)((((D * line.gety1())/(S * line.getz1()))*V) + V);
